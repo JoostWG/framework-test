@@ -7,5 +7,7 @@ idk what im doing
 ```bash
 $ cp .env.example .env
 $ npm install
-$ nmp run dev
+$ npm run dev
 ```
+
+Then `http://127.0.0.1:3000/`
