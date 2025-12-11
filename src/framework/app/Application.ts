@@ -9,7 +9,7 @@ export abstract class Application {
 
     public serve(): void {
         const server = createServer((request, response) => {
-            this.handle(request, response);
+            this.handle(request, response).catch(console.error);
         });
 
         server.listen(this.port, this.host, () => {
@@ -32,11 +32,11 @@ export abstract class Application {
         );
     }
 
-    private handle(message: IncomingMessage, responseHandler: ServerResponse): void {
+    private async handle(message: IncomingMessage, responseHandler: ServerResponse): Promise<void> {
         let response: Response;
 
         try {
-            response = this.handleRequest(this.makeRequestFromIncomingMessage(message));
+            response = await this.handleRequest(this.makeRequestFromIncomingMessage(message));
         } catch (error) {
             response = new JsonResponse({
                 name: error instanceof Error ? error.name : null,
@@ -55,13 +55,13 @@ export abstract class Application {
         responseHandler.end(response.content);
     }
 
-    private handleRequest(request: Request): Response {
+    private async handleRequest(request: Request): Promise<Response> {
         try {
-            return this.onRequest(request);
+            return await this.onRequest(request);
         } catch (error) {
             return new JsonResponse(error, 500);
         }
     }
 
-    protected abstract onRequest(request: Request): Response;
+    protected abstract onRequest(request: Request): Promise<Response>;
 }
