@@ -4,8 +4,8 @@ import { Request } from '../request';
 import { JsonResponse, type Response } from '../response';
 
 export abstract class Application {
-    public readonly host = '127.0.0.1';
-    public readonly port = 3000;
+    public readonly host = process.env.HOST;
+    public readonly port = Number(process.env.PORT);
 
     public serve(): void {
         const server = createServer((request, response) => {
