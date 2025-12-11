@@ -36,7 +36,7 @@ export abstract class Application {
         let response: Response;
 
         try {
-            response = await this.handleRequest(this.makeRequestFromIncomingMessage(message));
+            response = await this.onRequest(this.makeRequestFromIncomingMessage(message));
         } catch (error) {
             response = new JsonResponse({
                 name: error instanceof Error ? error.name : null,
@@ -53,14 +53,6 @@ export abstract class Application {
         }
 
         responseHandler.end(response.content);
-    }
-
-    private async handleRequest(request: Request): Promise<Response> {
-        try {
-            return await this.onRequest(request);
-        } catch (error) {
-            return new JsonResponse(error, 500);
-        }
     }
 
     protected abstract onRequest(request: Request): Promise<Response>;
