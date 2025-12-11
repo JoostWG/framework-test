@@ -2,8 +2,6 @@
     "version": "10.0.0",
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-        "migrate": "node ./dist/migrate.js --up",
-        "rollback": "node ./dist/migrate.js --down",
         "watch": "tsc --watch --noEmit",
         "build": "tsc --build",
         "lint": "eslint . --fix --max-warnings=0 --cache",
