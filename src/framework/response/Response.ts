@@ -4,10 +4,7 @@ import { HttpStatus } from '../http';
 export class Response {
     public readonly headers: Map<string, string>;
 
-    public constructor(
-        public readonly content: string,
-        public readonly status: HttpStatus = HttpStatus.OK,
-    ) {
+    public constructor(public readonly status: HttpStatus = HttpStatus.OK) {
         this.headers = new Map();
     }
 
@@ -17,7 +14,5 @@ export class Response {
         for (const [key, value] of this.headers.entries()) {
             handler.setHeader(key, value);
         }
-
-        handler.end(this.content);
     }
 }
