@@ -1,3 +1,4 @@
+import type { ServerResponse } from 'node:http';
 import { HttpStatus } from '../http';
 
 export class Response {
@@ -8,5 +9,15 @@ export class Response {
         public readonly status: HttpStatus = HttpStatus.OK,
     ) {
         this.headers = new Map();
+    }
+
+    public async send(handler: ServerResponse): Promise<void> {
+        handler.statusCode = this.status;
+
+        for (const [key, value] of this.headers.entries()) {
+            handler.setHeader(key, value);
+        }
+
+        handler.end(this.content);
     }
 }

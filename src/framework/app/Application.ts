@@ -46,13 +46,7 @@ export abstract class Application {
             }, 500);
         }
 
-        responseHandler.statusCode = response.status;
-
-        for (const [key, value] of response.headers.entries()) {
-            responseHandler.setHeader(key, value);
-        }
-
-        responseHandler.end(response.content);
+        await response.send(responseHandler);
     }
 
     protected abstract onRequest(request: Request): Promise<Response>;
